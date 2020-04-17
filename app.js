@@ -3,15 +3,19 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const dotenv = require('dotenv')
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const catalogRouter = require('./routes/catalog');
 
 const app = express();
+dotenv.config({ path: '.env' })
 
 // Set up mongoose connection
 const mongoose = require('mongoose');
-const dev_db_url = 'mongodb+srv://Deekshith:Marams123@cluster0-dt0zs.azure.mongodb.net/test?retryWrites=true&w=majority'
+// const dev_db_url = 'mongodb+srv://Deekshith:Marams123@cluster0-dt0zs.azure.mongodb.net/test?retryWrites=true&w=majority'
+const dev_db_url = process.env.ATLAS_URI;
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = global.Promise;
@@ -31,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/catalog', catalogRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
