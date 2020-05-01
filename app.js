@@ -14,7 +14,6 @@ dotenv.config({ path: '.env' })
 
 // Set up mongoose connection
 const mongoose = require('mongoose');
-// const dev_db_url = 'mongodb+srv://Deekshith:Marams123@cluster0-dt0zs.azure.mongodb.net/test?retryWrites=true&w=majority'
 const dev_db_url = process.env.ATLAS_URI;
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
